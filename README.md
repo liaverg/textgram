@@ -24,21 +24,21 @@ A user registers using the following:
 ## Use Cases 
 **Main Functionalities**   
 
-| Implemented Use Case | Input Port      | Input Model     | Use Case Implementation |
-|----------------------|-----------------|-----------------|-------------------------|
-| Register             | RegisterUseCase | LoginCommand    | RegisterService         |
+| Implemented Use Case | Input Port      | Input Model     | Use Case Implementation | Use Case Called in |
+|----------------------|-----------------|-----------------|-------------------------|--------------------|
+| Register             | RegisterUseCase | RegisterCommand | RegisterService         | RegisterController |
 
 
-| Unimplemented Use Case  | Input Port                     | Input Model                    | Use Case Implementation        |
-|-------------------------|--------------------------------|--------------------------------|--------------------------------|
-| Login                | LoginUseCase    | RegisterCommand | LoginService            |
-| Post                    | PostUseCase                    | PostCommand                    | PostService                    |
-| Comment                 | CommentUseCase                 | CommentCommand                 | CommentService                 |
-| SearchUser              | SearchUserUseCase              | SearchUserCommand              | SearchUserService              |
-| Follow                  | FollowUseCase                  | FollowCommand                  | FollowService                  |
-| AddFollower             | AddFollowerUseCase             | AddFollowerCommand             | AddFollowerService             |
-| RemoveFollower          | RemoveFollowerUseCase          | RemoveFollowerCommand          | RemoveFollowerService          |
-| CreateShareablePostLink | CreateShareablePostLinkUseCase | CreateShareablePostLinkCommand | CreateShareablePostLinkService |
+| Unimplemented Use Case  | Input Port                     | Input Model                    | Use Case Implementation        | Use Case Called in                |
+|-------------------------|--------------------------------|--------------------------------|--------------------------------|-----------------------------------|
+| Login                   | LoginUseCase                   | LoginCommand                   | LoginService                   | LoginController                   |
+| Post                    | PostUseCase                    | PostCommand                    | PostService                    | PostController                    |
+| Comment                 | CommentUseCase                 | CommentCommand                 | CommentService                 | CommentController                 |
+| SearchUser              | SearchUserUseCase              | SearchUserCommand              | SearchUserService              | SearchUserController              |
+| Follow                  | FollowUseCase                  | FollowCommand                  | FollowService                  | FollowController                  |
+| AddFollower             | AddFollowerUseCase             | AddFollowerCommand             | AddFollowerService             | AddFollowerController             |
+| RemoveFollower          | RemoveFollowerUseCase          | RemoveFollowerCommand          | RemoveFollowerService          | RemoveFollowerController          |
+| CreateShareablePostLink | CreateShareablePostLinkUseCase | CreateShareablePostLinkCommand | CreateShareablePostLinkService | CreateShareablePostLinkController |
 <br>
 
 **Read-Only/Queries/Ingoing Ports** 
@@ -48,12 +48,12 @@ A user registers using the following:
 | -                    | -          | -                       |
 
 
-| Unimplemented Use Case | Input Port        | Use Case Implementation |
-|------------------------|-------------------|-------------------------|
-| ViewPosts              | GetPostsQuery     | GetPostsService         |
-| ViewComments           | GetCommentsQuery  | GetCommentsService      |  
-| ViewFollowers          | GetFollowersQuery | GetFollowersService     |  
-| ViewFollowing          | GetFollowingQuery | GetFollowingService     |  
+| Unimplemented Use Case | Input Port        | Use Case Implementation | Use Case Called in |
+|------------------------|-------------------|-------------------------|--------------------|
+| ViewPosts              | GetPostsQuery     | GetPostsService         | ViewController     |
+| ViewComments           | GetCommentsQuery  | GetCommentsService      | ViewController     | 
+| ViewFollowers          | GetFollowersQuery | GetFollowersService     | ViewController     | 
+| ViewFollowing          | GetFollowingQuery | GetFollowingService     | ViewController     | 
 <br>
 
 **Outgoing Ports**
@@ -62,18 +62,18 @@ A user registers using the following:
 |----------------------|-------------|--------------------------------------------------|
 | -                    | -           | -                                                |
 
-| Unimplemented Use Case | Output Port        | Use Case Implementation(adapter.out.persistence) |
-|------------------------|--------------------|--------------------------------------------------|
-| StoreUser              | StoreUserPort      | UserPersistenceAdapter                           |
-| LoadUser               | LoadUserPort       | UserPersistenceAdapter                           |
-| StorePost              | StorePostPort      | PostPersistenceAdapter                           |  
-| LoadPosts              | LoadPostsPort      | PostPersistenceAdapter                           |  
-| StoreComment           | StoreCommentPort   | CommentPersistenceAdapter                        |  
-| LoadComments           | LoadCommentsPort   | CommentPersistenceAdapter                        |  
-| StoreFollowing         | StoreFollowingPort | FollowingPersistenceAdapter                      |  
-| LoadFollowing          | LoadFollowingPort  | FollowingPersistenceAdapter                      |  
-| StoreFollower          | StoreFollowerPort  | FollowerPersistenceAdapter                       |  
-| LoadFollowers          | LoadFollowersPort  | FollowerPersistenceAdapter                       |  
+| Unimplemented Use Case | Output Port       | Use Case Implementation(adapter.out.persistence) |
+|------------------------|-------------------|--------------------------------------------------|
+| SaveUser               | SaveUserPort      | UserPersistenceAdapter                           |
+| LoadUser               | LoadUserPort      | UserPersistenceAdapter                           |
+| SavePost               | SavePostPort      | PostPersistenceAdapter                           |  
+| LoadPosts              | LoadPostsPort     | PostPersistenceAdapter                           |  
+| SaveComment            | SaveCommentPort   | CommentPersistenceAdapter                        |  
+| LoadComments           | LoadCommentsPort  | CommentPersistenceAdapter                        |  
+| SaveFollowing          | SaveFollowingPort | FollowingPersistenceAdapter                      |  
+| LoadFollowing          | LoadFollowingPort | FollowingPersistenceAdapter                      |  
+| SaveFollower           | SaveFollowerPort  | FollowerPersistenceAdapter                       |  
+| LoadFollowers          | LoadFollowersPort | FollowerPersistenceAdapter                       |  
 
 ## Constraints
 1. Support up to 500 active users
