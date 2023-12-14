@@ -75,5 +75,9 @@ public class RegisterCommandTest {
     public void should_fail_to_validate_register_command_when_role_invalid(){
         assertThrows(ConstraintViolationException.class, () ->
                 new RegisterCommand("username@gmail.com", "User1234!", "vip"));
+
+        ConstraintViolationException exception = assertThrows(ConstraintViolationException.class, () ->
+                new RegisterCommand("username@gmail.com", "User1234!", "vip"));
+        assertEquals("role: User role is Invalid. Should be Free or Premium", exception.getMessage());
     }
 }
