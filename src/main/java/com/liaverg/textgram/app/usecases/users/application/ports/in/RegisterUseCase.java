@@ -1,4 +1,4 @@
-package com.liaverg.textgram.app.usecases.users.application.port.in;
+package com.liaverg.textgram.app.usecases.users.application.ports.in;
 
 import com.liaverg.textgram.app.usecases.users.domain.commands.RegisterCommand;
 

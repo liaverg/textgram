@@ -1,4 +1,4 @@
-package com.liaverg.textgram.app.usecases.users.adapter.in.web;
+package com.liaverg.textgram.app.usecases.users.adapters.in.web;
 
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;

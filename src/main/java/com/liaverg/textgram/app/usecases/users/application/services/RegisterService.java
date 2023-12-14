@@ -1,9 +1,9 @@
 package com.liaverg.textgram.app.usecases.users.application.services;
 
-import com.liaverg.textgram.app.usecases.users.application.port.out.LoadUserPort;
+import com.liaverg.textgram.app.usecases.users.application.ports.out.LoadUserPort;
 import com.liaverg.textgram.app.usecases.users.domain.commands.RegisterCommand;
-import com.liaverg.textgram.app.usecases.users.application.port.in.RegisterUseCase;
-import com.liaverg.textgram.app.usecases.users.application.port.out.SaveUserPort;
+import com.liaverg.textgram.app.usecases.users.application.ports.in.RegisterUseCase;
+import com.liaverg.textgram.app.usecases.users.application.ports.out.SaveUserPort;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.liaverg.textgram.app.usecases.users.adapter.in.web;
+package com.liaverg.textgram.app.usecases.users.adapters.in.web;
 
 import com.liaverg.textgram.app.usecases.users.application.services.RegisterService;
 import com.liaverg.textgram.app.usecases.users.domain.commands.RegisterCommand;
