@@ -33,7 +33,7 @@ public class RegisterControllerTest {
     @Test
     @DisplayName("Successful Register")
     public void should_register_user_when_happy_day_scenario(){
-        RegisterCommand command = new RegisterCommand("username@gmail.com", "User1234!", "free");
+        RegisterCommand command = new RegisterCommand("username@gmail.com", "User1234!", "FREE");
         when(registerServiceMock.register(any())).thenReturn(true);
 
         JavalinTest.test(app, (server, client) -> {
@@ -47,7 +47,7 @@ public class RegisterControllerTest {
     @Test
     @DisplayName("Failed Register when User Exists")
     public void should_fail_to_register_user_when_user_exists(){
-        RegisterCommand command = new RegisterCommand("username@gmail.com", "User1234!", "free");
+        RegisterCommand command = new RegisterCommand("username@gmail.com", "User1234!", "FREE");
         when(registerServiceMock.register(any())).thenReturn(false);
 
         JavalinTest.test(app, (server, client) -> {
@@ -61,7 +61,7 @@ public class RegisterControllerTest {
     @Test
     @DisplayName("Failed Register when RegisterCommand Invalid")
     public void should_fail_to_register_user_when_register_command_invalid(){
-        String command = "{\"username\":\"username@g\", \"password\":\"User1234!\", \"role\":\"free\"}";
+        String command = "{\"username\":\"username\", \"password\":\"User1234!\", \"role\":\"FREE\"}";
         when(registerServiceMock.register(any())).thenReturn(true);
 
         JavalinTest.test(app, (server, client) -> {
