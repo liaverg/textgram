@@ -13,9 +13,10 @@ public class RegisterService implements RegisterUseCase {
 
     @Override
     public boolean register(RegisterCommand command) {
-        if (loadUserPort.loadUser(command.username()) != null){
+        if (loadUserPort.loadUserByUsername(command.username()) != null){
             return false;
         }
-        return saveUserPort.saveUser(command.username(), command.password(), command.role());
+        saveUserPort.saveUser(command.username(), command.password(), command.role());
+        return true;
     }
 }
