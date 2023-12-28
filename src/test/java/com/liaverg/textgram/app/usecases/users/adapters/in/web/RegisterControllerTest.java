@@ -23,7 +23,7 @@ public class RegisterControllerTest {
         app = Javalin.create();
         registerServiceMock = mock(RegisterService.class);
         RegisterController registerController = new RegisterController(registerServiceMock);
-        app.post("/api/users/register", registerController::register);
+        app.post("/users/register", registerController::register);
     }
 
     private static String toJson(RegisterCommand command) {
@@ -37,8 +37,9 @@ public class RegisterControllerTest {
         when(registerServiceMock.register(any())).thenReturn(true);
 
         JavalinTest.test(app, (server, client) -> {
-            try(var response = client.post("/api/users/register", toJson(command))){
+            try(var response = client.post("/users/register", toJson(command))){
                 assertEquals(HttpStatus.CREATED.getCode(), response.code());
+                assertEquals("text/plain", response.header("content-type"));
                 assertEquals("User Registered Successfully", response.body().string());
             }
         });
@@ -51,8 +52,9 @@ public class RegisterControllerTest {
         when(registerServiceMock.register(any())).thenReturn(false);
 
         JavalinTest.test(app, (server, client) -> {
-            try( var response = client.post("/api/users/register", toJson(command))){
+            try( var response = client.post("/users/register", toJson(command))){
                 assertEquals(HttpStatus.BAD_REQUEST.getCode(), response.code());
+                assertEquals("text/plain", response.header("content-type"));
                 assertEquals("User Already Exists", response.body().string());
             }
         });
@@ -65,9 +67,10 @@ public class RegisterControllerTest {
         when(registerServiceMock.register(any())).thenReturn(true);
 
         JavalinTest.test(app, (server, client) -> {
-            try(var response = client.post("/api/users/register", command)){
+            try(var response = client.post("/users/register", command)){
                 assertEquals(HttpStatus.BAD_REQUEST.getCode(), response.code());
-                assertEquals("Invalid Command", response.body().string());
+                assertEquals("text/plain", response.header("content-type"));
+                assertEquals("Email is Invalid", response.body().string());
             }
         });
     }
