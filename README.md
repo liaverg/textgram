@@ -10,7 +10,7 @@ types of posts and comments. The API will be used by a front-end application, su
 *    Programming Language: Java 17
 *	 Build Tool: Maven
 *    IDE: IntelliJ
-*    Testing: JUnit5
+*    Testing: JUnit5, Mockito, JavalinTest
 *    Architecture: Hexagonal
 
 ## Features
@@ -23,57 +23,38 @@ A user registers using the following:
  
 ## Use Cases 
 **Main Functionalities**   
+* Register
+* Login
+* Follow
+* Unfollow
+* SearchUser
+* Post
+* Comment
+* CreateSharablePostLink
 
-| Implemented Use Case | Input Port      | Input Model     | Use Case Implementation | Use Case Called in |
-|----------------------|-----------------|-----------------|-------------------------|--------------------|
-| Register             | RegisterUseCase | RegisterCommand | RegisterService         | RegisterController |
-
-
-| Unimplemented Use Case  | Input Port                     | Input Model                    | Use Case Implementation        | Use Case Called in                |
-|-------------------------|--------------------------------|--------------------------------|--------------------------------|-----------------------------------|
-| Login                   | LoginUseCase                   | LoginCommand                   | LoginService                   | LoginController                   |
-| Post                    | PostUseCase                    | PostCommand                    | PostService                    | PostController                    |
-| Comment                 | CommentUseCase                 | CommentCommand                 | CommentService                 | CommentController                 |
-| SearchUser              | SearchUserUseCase              | SearchUserCommand              | SearchUserService              | SearchUserController              |
-| Follow                  | FollowUseCase                  | FollowCommand                  | FollowService                  | FollowController                  |
-| AddFollower             | AddFollowerUseCase             | AddFollowerCommand             | AddFollowerService             | AddFollowerController             |
-| RemoveFollower          | RemoveFollowerUseCase          | RemoveFollowerCommand          | RemoveFollowerService          | RemoveFollowerController          |
-| CreateShareablePostLink | CreateShareablePostLinkUseCase | CreateShareablePostLinkCommand | CreateShareablePostLinkService | CreateShareablePostLinkController |
-<br>
-
-**Read-Only/Queries/Ingoing Ports** 
-
-| Implemented Use Case | Input Port | Use Case Implementation |
-|----------------------|------------|-------------------------|
-| -                    | -          | -                       |
-
-
-| Unimplemented Use Case | Input Port        | Use Case Implementation | Use Case Called in |
-|------------------------|-------------------|-------------------------|--------------------|
-| ViewPosts              | GetPostsQuery     | GetPostsService         | ViewController     |
-| ViewComments           | GetCommentsQuery  | GetCommentsService      | ViewController     | 
-| ViewFollowers          | GetFollowersQuery | GetFollowersService     | ViewController     | 
-| ViewFollowing          | GetFollowingQuery | GetFollowingService     | ViewController     | 
-<br>
+**Read-Only/Queries/Ingoing Ports**
+* GetUserPosts
+* GetFolloweesPosts
+* GetUserCommentsPerPost
+* GetFolloweesCommentsPerPost
+* GetFollowees
+* GetFollowers
 
 **Outgoing Ports**
+* SaveUser
+* SavePost
+* SaveComment
+* SaveFollowing
+* DeleteFollowing
+<br><br>
+* LoadUser
+* LoadFollowees
+* LoadFollowers
+* LoadUserPosts
+* LoadFolloweesPosts
+* LoadUserCommentsPerPost
+* LoadFolloweesCommentsPerPost
 
-| Implemented Use Case | Output Port | Use Case Implementation(adapter.out.persistence) |
-|----------------------|-------------|--------------------------------------------------|
-| -                    | -           | -                                                |
-
-| Unimplemented Use Case | Output Port       | Use Case Implementation(adapter.out.persistence) |
-|------------------------|-------------------|--------------------------------------------------|
-| SaveUser               | SaveUserPort      | UserPersistenceAdapter                           |
-| LoadUser               | LoadUserPort      | UserPersistenceAdapter                           |
-| SavePost               | SavePostPort      | PostPersistenceAdapter                           |  
-| LoadPosts              | LoadPostsPort     | PostPersistenceAdapter                           |  
-| SaveComment            | SaveCommentPort   | CommentPersistenceAdapter                        |  
-| LoadComments           | LoadCommentsPort  | CommentPersistenceAdapter                        |  
-| SaveFollowing          | SaveFollowingPort | FollowingPersistenceAdapter                      |  
-| LoadFollowing          | LoadFollowingPort | FollowingPersistenceAdapter                      |  
-| SaveFollower           | SaveFollowerPort  | FollowerPersistenceAdapter                       |  
-| LoadFollowers          | LoadFollowersPort | FollowerPersistenceAdapter                       |  
 
 ## Constraints
 1. Support up to 500 active users
