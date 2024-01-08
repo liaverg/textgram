@@ -40,9 +40,10 @@ public class RegisterController {
                 context.result("User Already Exists");
             }
         } catch (Exception e) {
-            if (e.getCause() instanceof ConstraintViolationException) {
+            if (e.getCause() instanceof ConstraintViolationException)
                 context.result(formatConstraintViolationMessage(e.getCause().getMessage()));
-            }
+            else
+                context.result(e.getMessage());
             context.status(HttpStatus.BAD_REQUEST.getCode());
         }
     }
