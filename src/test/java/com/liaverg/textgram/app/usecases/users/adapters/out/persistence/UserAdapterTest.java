@@ -1,6 +1,6 @@
 package com.liaverg.textgram.app.usecases.users.adapters.out.persistence;
 
-import com.liaverg.textgram.app.usecases.users.domain.User;
+import com.liaverg.textgram.app.usecases.users.domain.views.UserDTO;
 import com.liaverg.textgram.app.utilities.DbUtils;
 import com.liaverg.textgram.appconfig.DataSourceProvider;
 import com.zaxxer.hikari.HikariDataSource;
@@ -155,7 +155,7 @@ class UserAdapterTest {
     void should_load_user_when_user_exists() {
         insertUser("username@gmail.com", "User1234!", "FREE");
 
-        User user = userAdapter.loadUserByUsername("username@gmail.com");
+        UserDTO user = userAdapter.loadUserByUsername("username@gmail.com");
 
         assertEquals("username@gmail.com", user.getUsername());
         assertEquals("User1234!", user.getPassword());
@@ -165,7 +165,7 @@ class UserAdapterTest {
     @Test
     @DisplayName("Failed Load when User Does Not Exist")
     void should_fail_to_load_user_when_user_does_not_exist() {
-        User user = userAdapter.loadUserByUsername("username@gmail.com");
+        UserDTO user = userAdapter.loadUserByUsername("username@gmail.com");
 
         assertNull(user);
     }

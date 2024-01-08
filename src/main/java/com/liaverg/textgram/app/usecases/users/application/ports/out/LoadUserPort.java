@@ -1,7 +1,7 @@
 package com.liaverg.textgram.app.usecases.users.application.ports.out;
 
-import com.liaverg.textgram.app.usecases.users.domain.User;
+import com.liaverg.textgram.app.usecases.users.domain.views.UserDTO;
 
 public interface LoadUserPort {
-    User loadUserByUsername(String username);
+    UserDTO loadUserByUsername(String username);
 }

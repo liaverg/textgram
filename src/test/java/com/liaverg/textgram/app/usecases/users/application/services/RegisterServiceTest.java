@@ -1,9 +1,9 @@
 package com.liaverg.textgram.app.usecases.users.application.services;
 
 import com.liaverg.textgram.app.usecases.users.application.ports.out.LoadUserPort;
-import com.liaverg.textgram.app.usecases.users.domain.User;
 import com.liaverg.textgram.app.usecases.users.domain.commands.RegisterCommand;
 import com.liaverg.textgram.app.usecases.users.application.ports.out.SaveUserPort;
+import com.liaverg.textgram.app.usecases.users.domain.views.UserDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ public class RegisterServiceTest {
     @DisplayName("Failed Register when User Exists")
     public void should_fail_to_register_user_when_user_exits() {
         RegisterCommand command = new RegisterCommand("username@gmail.com", "User1234!", "FREE");
-        when(loadUserPortMock.loadUserByUsername(any())).thenReturn(mock(User.class));
+        when(loadUserPortMock.loadUserByUsername(any())).thenReturn(mock(UserDTO.class));
         doNothing().when(saveUserPortMock).saveUser(any(), any(), any());
 
         boolean isRegisterSuccessful = registerService.register(command);
