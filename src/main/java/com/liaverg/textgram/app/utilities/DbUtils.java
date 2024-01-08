@@ -23,18 +23,6 @@ public class DbUtils {
         T apply(Connection connection) throws SQLException;
     }
 
-    public static void executeStatements(ConnectionConsumer consumer) {
-        try (Connection connection = dataSource.getConnection()) {
-            try {
-                consumer.accept(connection);
-            } catch (SQLException ex) {
-                throw new RuntimeException("Error during statement execution", ex);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error during database connection", e);
-        }
-    }
-
     public static void executeStatementsInTransaction(ConnectionConsumer consumer) {
         boolean isOuterTransaction = false;
 
