@@ -1,5 +1,6 @@
 package com.liaverg.textgram.app.usecases.users.adapters.out.persistence;
 
+import com.liaverg.textgram.app.usecases.users.domain.User;
 import com.liaverg.textgram.app.utilities.DbUtils;
 import com.liaverg.textgram.appconfig.DataSourceProvider;
 import com.zaxxer.hikari.HikariDataSource;
@@ -46,11 +47,6 @@ class UserAdapterTest {
         truncateTable();
     }
 
-    @AfterAll
-    static void shutdown() {
-        dataSource.close();
-    }
-
     private void truncateTable() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             String truncateSQL = "TRUNCATE TABLE textgram.users";
@@ -66,6 +62,17 @@ class UserAdapterTest {
             try (PreparedStatement addColumnStatement = connection.prepareStatement(addColumnSQL)) {
                 addColumnStatement.executeUpdate();
             }
+        }
+    }
+
+    private void dropRoleColumn(){
+        try (Connection connection = dataSource.getConnection()) {
+            String dropColumnSQL = "ALTER TABLE textgram.users DROP COLUMN role";
+            try (PreparedStatement dropColumnStatement = connection.prepareStatement(dropColumnSQL)) {
+                dropColumnStatement.executeUpdate();
+            }
+        } catch (SQLException e){
+            fail();
         }
     }
 
@@ -101,11 +108,15 @@ class UserAdapterTest {
         }
     }
 
-    private void dropRoleColumn(){
-        try (Connection connection = dataSource.getConnection()) {
-            String dropColumnSQL = "ALTER TABLE textgram.users DROP COLUMN role";
-            try (PreparedStatement dropColumnStatement = connection.prepareStatement(dropColumnSQL)) {
-                dropColumnStatement.executeUpdate();
+
+    private void insertUser(String username, String password, String role){
+        try(Connection connection = dataSource.getConnection()){
+            String insertSQL = "INSERT INTO textgram.users (username, password, role) VALUES (?, ?, ?)";
+            try (PreparedStatement insertStatement = connection.prepareStatement(insertSQL)) {
+                insertStatement.setString(1, username);
+                insertStatement.setString(2, password);
+                insertStatement.setString(3, role);
+                insertStatement.executeUpdate();
             }
         } catch (SQLException e){
             fail();
@@ -125,15 +136,49 @@ class UserAdapterTest {
     }
 
     @Test
-    @DisplayName("Failed Save when Users Table Is Wrongly Configured")
+    @DisplayName("Failed Save when Users Table Configuration Is Incorrect")
     void should_fail_to_save_user_when_users_table_has_no_role_column() {
         dropRoleColumn();
         String username = "username@gmail.com";
         String password = "User1234!";
         String role = "FREE";
 
-        assertThrows(RuntimeException.class, () -> userAdapter.saveUser(username, password, role));
+        RuntimeException exception =
+                assertThrows(RuntimeException.class, () -> userAdapter.saveUser(username, password, role));
 
+        assertEquals("Failed to Save User", exception.getMessage());
         verifyNoRecordInDatabase();
+    }
+
+    @Test
+    @DisplayName("Successful Load when User Exists")
+    void should_load_user_when_user_exists() {
+        insertUser("username@gmail.com", "User1234!", "FREE");
+
+        User user = userAdapter.loadUserByUsername("username@gmail.com");
+
+        assertEquals("username@gmail.com", user.getUsername());
+        assertEquals("User1234!", user.getPassword());
+        assertEquals("FREE", user.getRole());
+    }
+
+    @Test
+    @DisplayName("Failed Load when User Does Not Exist")
+    void should_fail_to_load_user_when_user_does_not_exist() {
+        User user = userAdapter.loadUserByUsername("username@gmail.com");
+
+        assertNull(user);
+    }
+
+    @Test
+    @DisplayName("Failed Load when Users Table Configuration Is Incorrect")
+    void should_fail_to_load_user_when_users_table_has_no_role_column() {
+        insertUser("username@gmail.com", "User1234!", "FREE");
+        dropRoleColumn();
+
+        RuntimeException exception =
+                assertThrows(RuntimeException.class, () -> userAdapter.loadUserByUsername("username@gmail.com"));
+
+        assertEquals("Failed to Load User", exception.getMessage());
     }
 }
