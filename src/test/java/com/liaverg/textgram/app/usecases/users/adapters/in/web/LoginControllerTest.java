@@ -2,6 +2,7 @@ package com.liaverg.textgram.app.usecases.users.adapters.in.web;
 
 import com.liaverg.textgram.app.usecases.users.application.services.LoginService;
 import com.liaverg.textgram.app.usecases.users.domain.commands.LoginCommand;
+import com.liaverg.textgram.app.usecases.users.domain.ids.UserId;
 import io.javalin.Javalin;
 import io.javalin.http.HttpStatus;
 import io.javalin.json.JavalinJackson;
@@ -19,8 +20,6 @@ class LoginControllerTest {
     private Javalin app;
     private static final JavalinJackson javalinJackson = new JavalinJackson();
     private LoginService loginServiceMock;
-    private static final long NON_EXISTENT_USERNAME_CODE = -1;
-    private static final long WRONG_PASSWORD_CODE = -2;
 
     @BeforeEach
     void setUp() {
@@ -38,7 +37,8 @@ class LoginControllerTest {
     @DisplayName("Successful Login")
     void should_login_user_when_happy_day_scenario() {
         LoginCommand command = new LoginCommand("username@gmail.com", "User1234!");
-        when(loginServiceMock.login(any())).thenReturn(Long.valueOf(1));
+        UserId userId = new UserId(1);
+        when(loginServiceMock.login(any())).thenReturn(userId);
 
         JavalinTest.test(app, (server, client) -> {
             try (var response = client.post("/users/login", toJson(command))) {
@@ -53,7 +53,7 @@ class LoginControllerTest {
     @DisplayName("Failed Login when Username Does not Exist")
     void should_fail_to_login_user_when_username_does_not_exist() {
         LoginCommand command = new LoginCommand("username@gmail.com", "User1234!");
-        when(loginServiceMock.login(any())).thenReturn(NON_EXISTENT_USERNAME_CODE);
+        when(loginServiceMock.login(any())).thenReturn(null);
 
         JavalinTest.test(app, (server, client) -> {
             try (var response = client.post("/users/login", toJson(command))) {
@@ -68,7 +68,8 @@ class LoginControllerTest {
     @DisplayName("Failed Login when Password is Wrong")
     void should_fail_to_login_user_when_password_is_wrong() {
         LoginCommand command = new LoginCommand("username@gmail.com", "User1234!");
-        when(loginServiceMock.login(any())).thenReturn(WRONG_PASSWORD_CODE);
+        UserId userId = new UserId(-1);
+        when(loginServiceMock.login(any())).thenReturn(userId);
 
         JavalinTest.test(app, (server, client) -> {
             try (var response = client.post("/users/login", toJson(command))) {

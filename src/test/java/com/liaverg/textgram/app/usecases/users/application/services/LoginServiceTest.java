@@ -2,6 +2,7 @@ package com.liaverg.textgram.app.usecases.users.application.services;
 
 import com.liaverg.textgram.app.usecases.users.application.ports.out.LoadUserPort;
 import com.liaverg.textgram.app.usecases.users.domain.commands.LoginCommand;
+import com.liaverg.textgram.app.usecases.users.domain.ids.UserId;
 import com.liaverg.textgram.app.usecases.users.domain.views.UserDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +15,6 @@ import static org.mockito.Mockito.*;
 public class LoginServiceTest {
     private LoginService loginService;
     private LoadUserPort loadUserPortMock;
-    private static final long NON_EXISTENT_USERNAME_CODE = -1;
-    private static final long WRONG_PASSWORD_CODE = -2;
 
     @BeforeEach
     void setup(){
@@ -30,9 +29,9 @@ public class LoginServiceTest {
         UserDTO savedUser = new UserDTO(1, "username@gmail.com", "User1234!", "FREE");
         when(loadUserPortMock.loadUserByUsername(any())).thenReturn(savedUser);
 
-        long user_id = loginService.login(command);
+        UserId user_id = loginService.login(command);
 
-        assertEquals(1, user_id);
+        assertEquals(1, user_id.getId());
         verify(loadUserPortMock).loadUserByUsername("username@gmail.com");
     }
 
@@ -42,9 +41,9 @@ public class LoginServiceTest {
         LoginCommand command = new LoginCommand("username@gmail.com", "User1234!");
         when(loadUserPortMock.loadUserByUsername(any())).thenReturn(null);
 
-        long user_id = loginService.login(command);
+        UserId user_id = loginService.login(command);
 
-        assertEquals(NON_EXISTENT_USERNAME_CODE, user_id);
+        assertNull(user_id);
         verify(loadUserPortMock).loadUserByUsername("username@gmail.com");
     }
 
@@ -55,9 +54,9 @@ public class LoginServiceTest {
         UserDTO savedUser = new UserDTO(1, "username@gmail.com", "User0000!", "FREE");
         when(loadUserPortMock.loadUserByUsername(any())).thenReturn(savedUser);
 
-        long user_id = loginService.login(command);
+        UserId user_id = loginService.login(command);
 
-        assertEquals(WRONG_PASSWORD_CODE, user_id);
+        assertEquals(-1, user_id.getId());
         verify(loadUserPortMock).loadUserByUsername("username@gmail.com");
     }
 }
