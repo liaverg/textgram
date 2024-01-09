@@ -20,6 +20,18 @@ A user registers using the following:
     *  a password that contains at least 1 lowercase, 1 uppercase, 1 number, 
    1 symbol from !@#$%^&* and is 8 characters long.
     * a role from the following: Free, Premium
+2. Login
+A user logs in using the following:
+   * an already registered email address as username
+   * the corresponding password to the account
+
+## ToDos
+Improvements on implemented features
+1. Registration: 
+* Encode Password (so that the database doesn't store the encoded password)
+* Email validation system
+2. Login: 
+* Authenticate users (maybe with JWT)
  
 ## Use Cases 
 **Main Functionalities**   
