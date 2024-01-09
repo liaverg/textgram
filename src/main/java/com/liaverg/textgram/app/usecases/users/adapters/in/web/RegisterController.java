@@ -15,7 +15,7 @@ public class RegisterController {
     @OpenApi(
             summary = "Register user",
             operationId = "register",
-            path = "users/register",
+            path = "/users/register",
             methods = HttpMethod.POST,
             tags = {"Users"},
             requestBody = @OpenApiRequestBody(content = {@OpenApiContent(from = RegisterCommand.class)}),
