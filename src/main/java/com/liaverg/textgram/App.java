@@ -1,5 +1,6 @@
 package com.liaverg.textgram;
 
+import com.liaverg.textgram.app.usecases.users.adapters.in.web.LoginController;
 import com.liaverg.textgram.app.usecases.users.adapters.in.web.RegisterController;
 import com.liaverg.textgram.appconfig.AppConfig;
 import io.javalin.Javalin;
@@ -14,6 +15,7 @@ public class App {
     public static void main(String[] args) {
         AppConfig appConfig = new AppConfig();
         RegisterController registerController = appConfig.getRegisterController();
+        LoginController loginController = appConfig.getLoginController();
 
         Javalin.create(config -> {
             config.plugins.register(new OpenApiPlugin(new OpenApiPluginConfiguration()
@@ -28,8 +30,13 @@ public class App {
             ));
             config.plugins.register(new SwaggerPlugin(new SwaggerConfiguration()));
         }).routes(() -> {
-            path("users/register", () -> {
-                post(registerController::register);
+            path("/users", () ->{
+                path("/register", () -> {
+                    post(registerController::register);
+                });
+                path("/login", () -> {
+                    post(loginController::login);
+                });
             });
         }).start(8080);
 
