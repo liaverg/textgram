@@ -29,16 +29,10 @@ public class App {
                     )
             ));
             config.plugins.register(new SwaggerPlugin(new SwaggerConfiguration()));
-        }).routes(() -> {
-            path("/users", () ->{
-                path("/register", () -> {
-                    post(registerController::register);
-                });
-                path("/login", () -> {
-                    post(loginController::login);
-                });
-            });
-        }).start(8080);
+        }).routes(() -> path("/users", () -> {
+            path("/register", () -> post(registerController::register));
+            path("/login", () -> post(loginController::login));
+        })).start(8080);
 
         System.out.println("Check out Swagger UI docs at http://localhost:8080/swagger");
     }
